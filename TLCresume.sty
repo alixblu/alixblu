@@ -12,7 +12,6 @@
 
 % MARGINS AND SPACING
 \RequirePackage[margin=.5in, top=.5in, bottom=1in]{geometry} % Set Margins
-\raggedright % left align no indent
 \raggedbottom % top align no indent
 
 % COLOR
@@ -30,19 +29,19 @@
 % SECTION FORMATTING 
 \RequirePackage[nostruts]{titlesec}
 \titlespacing*{\section}{0em}{0.5em}{0em}
-\titleformat{\section}{\color{highlight} \scshape \raggedright \large}{}{0em}{}[\vspace{-0.75em}\hrulefill]
+\titleformat{\section}{\color{highlight} \bfseries \raggedright \large}{}{0em}{}[\vspace{-0.75em}\hrulefill]
 % SUBSECTION FORMATTING
 \titlespacing*{\subsection}{0em}{0em}{0em}
-\titleformat{\subsection}{\bfseries}{}{0em}{}[]
+\titleformat{\subsection}{\bfseries \raggedright}{}{0em}{}[]
 
 % BOLD COMMAND
-\newcommand{\skills}[1]{ {\bfseries #1}}
+\newcommand{\skills}[1]{{\bfseries #1}}
 
 % SUBTEXT
-\newcommand{\subtext}[1]{\textit{#1}\par\vspace{-.5em}}
+\newcommand{\subtext}[1]{#1\par\vspace{-.5em}}
 
 % tighter spacing than itemize
-\setlist[itemize]{align=parleft,left=0pt..1em}
+\setlist[itemize]{left=0pt..1em}
 \newenvironment{zitemize}{
 \begin{itemize} \itemsep 0pt \parskip 0pt \parsep 1pt}
 {\end{itemize}\vspace{-.5em}}

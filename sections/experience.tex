@@ -1,101 +1,90 @@
 
 %====================
+% EXPERIENCE A
+%====================
+\subsection{{\large\href{https://github.com/alixblu/devops-lab.git}{Cloud-Native Deployment Pipeline}\normalsize\mdseries{} \texorpdfstring{\hfill}{} Aug. 3 -- Aug. 25, 2026}}
+\subtext{\textbf{DevOps/Cloud Engineer} -- Personal Project \hfill \href{https://github.com/alixblu/devops-lab.git}{github.com/alixblu/devops-lab}}
+
+\vspace{0.7em}
+\noindent Cloud-native deployment pipeline for a backend service on Amazon ECS with automated delivery, multi-AZ availability, application load balancing, observability, and secrets management.\par
+\noindent \textbf{Tech Stack:} AWS CodePipeline, Amazon ECS with Fargate, Amazon VPC, Application Load Balancer, CloudWatch, Secrets Manager.\par
+\vspace{-0.7em}
+\begin{zitemize}
+
+    \item Designed Amazon VPC networking with public and private subnets across multiple Availability Zones, routing, and security group controls; ECS tasks run in private subnets with the Application Load Balancer as the public entry point.
+
+    \item Configured an Application Load Balancer with ECS target groups, health checks, and traffic routing to distribute requests across backend tasks.
+
+    \item Automated the full deployment workflow with AWS CodePipeline and deployed the service on Amazon ECS with Fargate across multiple Availability Zones for high availability.
+
+    \item Implemented observability with Amazon CloudWatch Logs, metrics, and alarms; secured database credentials and API keys in AWS Secrets Manager and injected them into ECS tasks at runtime.
+\end{zitemize}
+
+%====================
 % EXPERIENCE B
 %====================
-\subsection{{DEVOPS / CLOUD ENGINEER --- Course Project \hfill Mar. 2026 --- Apr. 2026}}
-\subtext{\href{https://github.com/akira3175/BuocChanSoiDa.git}{Food Street Commentary WebApp} \hfill \href{https://foodstreet.alixblu.site}{ https://foodstreet.alixblu.site}}
-\subtext{\\[-0.5em] \hfill \href{https://github.com/akira3175/BuocChanSoiDa.git}{ https://github.com/akira3175/BuocChanSoiDa.git}}
 
-\vspace{0.4em}
-\noindent Web application that automatically plays location-based audio narration in multiple languages for nearby food street points of interest, with integrated user and admin management system.\par
-\noindent \textbf{Tech Stack:} Python, Django, AWS EC2, AWS ECR, AWS RDS, Docker.\par
-\vspace{-0.7em}
-\begin{zitemize}
+\subsection{{\large\href{https://github.com/asbg-sgu}{AWS Student Builder Group at SGU - Official Website}\normalsize\mdseries{} \texorpdfstring{\hfill}{} Aug. 2026 -- Sep. 2026}}
+\subtext{\textbf{Cloud Development Lead} -- Team Project \hfill Pre-launch}
 
-    \item Designed and implemented CI/CD pipelines to automate build, testing, and deployment workflows.
-    \item Deployed and managed cloud infrastructure using AWS EC2, ECR, Docker, and RDS.
-    \item Handled project migration from local environment to cloud production deployment.
-    \item Configured public domain access, networking, and service integration.
-    \item Contributed to POI API integration and application logic flow.
-\end{zitemize}
-
-%====================
-% EXPERIENCE C
-%====================
-\subsection{{TEAM LEAD / BACKEND DEVELOPER --- Course Project \hfill Oct. 2025 --- Dec. 2025}}
-\subtext{\href{https://github.com/alixblu/review-platform.git}{Beauty Product Review Platform} \hfill \href{https://github.com/alixblu/review-platform.git}{ https://github.com/alixblu/review-platform.git}}
 \vspace{0.7em}
-\noindent Comprehensive beauty product review platform built with microservices architecture, featuring user authentication, product management, social interactions, and AI-powered chatbot assistance.\par
-\noindent \textbf{Tech Stack:} Java, Spring Boot, Spring Cloud Gateway, PostgreSQL, Neo4j, Docker, AWS Cognito, AWS S3, AWS Bedrock.\par
+
+\noindent Pre-launch club website with an AI-powered RAG chatbot, built on AWS managed services and provisioned with Infrastructure as Code (IaC).\par
+
+\noindent \textbf{Tech Stack:} AWS Bedrock, Amazon S3, AWS Lambda, Amazon API Gateway, AWS CloudFormation.\par
+
 \vspace{-0.7em}
+
 \begin{zitemize}
-    
-    \item Led backend system architecture design and task decomposition for a modular, service-oriented application.
-    \item Designed and implemented relational and graph database schemas using PostgreSQL and Neo4j.
-    \item Developed RESTful backend services for authentication, product management, user reviews, and social interactions.
-    \item Integrated AWS Cognito for authentication, S3 for media storage, and built a RAG chatbot powered by AWS Bedrock.
-    \item Containerized services with Docker to standardize local development.
+
+    \item Provisioned and managed the full AWS cloud infrastructure using CloudFormation, ensuring repeatable and consistent resource deployment.
+
+    \item Built an AI-powered RAG chatbot using Amazon Bedrock Knowledge Bases, with Amazon S3 as the document data source and a Bedrock foundation model for response generation.
+
+    \item Developed the serverless chatbot response workflow with AWS Lambda, integrating the Bedrock Knowledge Bases and foundation model.
+
+    \item Configured IAM roles and policies to enforce least-privilege access between AWS services.
+
+    \item Applied Amazon API Gateway throttling to limit request rates and protect the chatbot endpoint from excessive traffic.
+
 \end{zitemize}
 
+% %====================
+% % EXPERIENCE B
+% %====================
+% \subsection{{DEVOPS / CLOUD ENGINEER --- Course Project \hfill Mar. 2026 --- Apr. 2026}}
+% \subtext{\href{https://github.com/akira3175/BuocChanSoiDa.git}{Food Street Commentary WebApp} \hfill \href{https://foodstreet.alixblu.site}{ https://foodstreet.alixblu.site}}
+% \subtext{\\[-0.5em] \hfill \href{https://github.com/akira3175/BuocChanSoiDa.git}{ https://github.com/akira3175/BuocChanSoiDa.git}}
 
+% \vspace{0.4em}
+% \noindent Web application that automatically plays location-based audio narration in multiple languages for nearby food street points of interest, with integrated user and admin management system.\par
+% \noindent \textbf{Tech Stack:} Python, Django, AWS EC2, AWS ECR, AWS RDS, Docker.\par
+% \vspace{-0.7em}
+% \begin{zitemize}
 
-%====================
-% EXPERIENCE E
-%====================
-%\subsection{{ROLE / PROJECT E \hfill MMM YYYY --- MMM YYYY}}
-%\subtext{company E \hfill somewhere, state}
-%\begin{zitemize}
-%    \item In lobortis libero consectetur eros vehicula, vel pellentesque quam fringilla.
-%    \item Ut malesuada purus at mi placerat dapibus.
-%    \item Suspendisse finibus massa eu nisi dictum, a imperdiet tellus convallis.
-%    \item Nam feugiat erat vestibulum lacus feugiat, efficitur gravida nunc imperdiet.
-%    \item Morbi porta lacus vitae augue luctus, a rhoncus est sagittis.
-%\end{zitemize}
+%     \item Designed and implemented CI/CD pipelines to automate build, testing, and deployment workflows.
+%     \item Deployed and managed cloud infrastructure using AWS EC2, ECR, Docker, and RDS.
+%     \item Handled project migration from local environment to cloud production deployment.
+%     \item Configured public domain access, networking, and service integration.
+%     \item Contributed to POI API integration and application logic flow.
+% \end{zitemize}
 
-%====================
-% EXPERIENCE F
-%====================
-%\subsection{{ROLE / PROJECT F \hfill MMM YYYY --- MMM YYYY}}
-%\subtext{company F \hfill somewhere, state}
-%\begin{zitemize}
-%    \item In lobortis libero consectetur eros vehicula, vel pellentesque quam fringilla.
-%    \item Ut malesuada purus at mi placerat dapibus.
-%    \item Ut malesuada purus at mi placerat dapibus.
-%    \item Ut malesuada purus at mi placerat dapibus.
-%\end{zitemize}
+% %====================
+% % EXPERIENCE C
+% %====================
+% \subsection{{\large\href{https://github.com/alixblu/review-platform.git}{Product Review Platform}\normalsize\mdseries{} \texorpdfstring{\hfill}{} Oct. 2025 -- Dec. 2025}}
+% \subtext{\textbf{Team Lead/Backend Developer} -- Course Project \hfill \href{https://github.com/alixblu/review-platform.git}{github.com/alixblu/review-platform}}
+% \vspace{0.7em}
+% \noindent Comprehensive product review platform built with a microservices architecture, supporting user authentication, product management, reviews, social interactions, and an AI-powered RAG chatbot.\par
+% \noindent \textbf{Tech Stack:} Java, Spring Boot, Spring Cloud Gateway, PostgreSQL, Neo4j, Docker, AWS Cognito, S3, Bedrock.\par
+% \vspace{-0.7em}
+% \begin{zitemize}
 
-%====================
-% EXPERIENCE G
-%====================
-%\subsection{{ROLE / PROJECT G \hfill MMM YYYY --- MMM YYYY}}
-%\subtext{company G \hfill somewhere, state}
-%\begin{zitemize}
-%    \item In lobortis libero consectetur eros vehicula, vel pellentesque quam fringilla.
-%    \item Ut malesuada purus at mi placerat dapibus.
-%    \item Ut malesuada purus at mi placerat dapibus.
-%    \item Ut malesuada purus at mi placerat dapibus.
-%\end{zitemize}
+%     \item Led backend architecture design and task decomposition, defining service boundaries and API responsibilities for a modular microservices-based system.
+%     \item Designed and implemented data models and database schemas using PostgreSQL for transactional data and Neo4j for graph-based social relationships and interactions.
+%     \item Developed RESTful microservices with Spring Boot for authentication, product management, reviews, and social features, exposed through Spring Cloud Gateway.
+%     \item Integrated AWS Cognito for secure user authentication and authorization, AWS S3 for media storage, and AWS Bedrock to implement a RAG-based chatbot for product-related queries.
+%     \item Containerized backend services with Docker and configured a consistent multi-service development environment for local testing and integration.
 
-%====================
-% EXPERIENCE H
-%====================
-%\subsection{{ROLE / PROJECT H \hfill MMM YYYY --- MMM YYYY}}
-%\subtext{company H \hfill somewhere, state}
-%\begin{zitemize}
-%    \item In lobortis libero consectetur eros vehicula, vel pellentesque quam fringilla.
-%    \item Ut malesuada purus at mi placerat dapibus.
-%    \item Ut malesuada purus at mi placerat dapibus.
-%    \item Ut malesuada purus at mi placerat dapibus.
-%\end{zitemize}
+% \end{zitemize}
 
-%====================
-% EXPERIENCE I
-%====================
-%\subsection{{ROLE / PROJECT I \hfill MMM YYYY --- MMM YYYY}}
-%\subtext{company I \hfill somewhere, state}
-%\begin{zitemize}
-%    \item In lobortis libero consectetur eros vehicula, vel pellentesque quam fringilla.
-%    \item Ut malesuada purus at mi placerat dapibus.
-%    \item Ut malesuada purus at mi placerat dapibus.
-%    \item Ut malesuada purus at mi placerat dapibus.
-%\end{zitemize}
