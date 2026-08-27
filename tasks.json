@@ -1,0 +1,780 @@
+{
+  "project": "RIDENOW",
+  "issues": [
+    {
+      "issueType": "Task",
+      "summary": "Project Planning & Architecture",
+      "description": "Define the RideNow system scope, microservice boundaries, API contracts, database ownership, and communication patterns. Tech: Java, Spring Boot, REST, PostgreSQL, Redis. AWS: EKS, RDS PostgreSQL, ElastiCache Redis, API Gateway. Priority: MUST HAVE.",
+      "priority": "Must Have",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Define MVP scope and core ride flow",
+          "description": "Define Passenger and Driver flows: authentication, ride request, matching, acceptance, trip lifecycle, payment simulation, and history."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Define microservice boundaries",
+          "description": "Define User, Driver, Trip, Matching, Payment, and Notification services. Assign clear responsibilities and avoid shared business logic."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Define service communication patterns",
+          "description": "Decide which operations use synchronous REST and which use asynchronous messaging. Tech: REST, SQS, EventBridge."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Define database ownership",
+          "description": "Define which service owns each database/table and prevent direct database access between services. Tech: PostgreSQL, database-per-service approach."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Define API contracts",
+          "description": "Design request/response models, endpoints, error formats, authentication requirements, and service-to-service APIs."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Create architecture diagram",
+          "description": "Document Frontend → API Gateway → EKS → Microservices → RDS/Redis and asynchronous flows through SQS/EventBridge."
+        }
+      ]
+    },
+    {
+      "issueType": "Task",
+      "summary": "User Service & Authentication",
+      "description": "Implement user registration/login integration, user profiles, roles, and authorization. Tech: Java, Spring Boot, REST. AWS: Amazon Cognito, API Gateway, IAM. Priority: MUST HAVE.",
+      "priority": "Must Have",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Create User Service",
+          "description": "Create Spring Boot service responsible for user profile and user-related business logic."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure Amazon Cognito",
+          "description": "Create User Pool, configure authentication, and obtain JWT tokens for authenticated users."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement JWT authentication",
+          "description": "Validate Cognito JWTs and extract user identity and roles in the backend."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement Passenger and Driver roles",
+          "description": "Implement role-based authorization so only permitted users can access Passenger or Driver operations."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement user profile APIs",
+          "description": "Create APIs for retrieving and updating basic user information."
+        }
+      ]
+    },
+    {
+      "issueType": "Task",
+      "summary": "Driver Service",
+      "description": "Manage driver profiles, availability, online/offline state, and current location. Tech: Java, Spring Boot, PostgreSQL, Redis. AWS: EKS, RDS PostgreSQL, ElastiCache Redis. Priority: MUST HAVE.",
+      "priority": "Must Have",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Create Driver Service",
+          "description": "Create Spring Boot service responsible for driver-specific business logic."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement driver profile",
+          "description": "Store driver information such as vehicle and basic profile data in PostgreSQL."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement driver online/offline state",
+          "description": "Allow drivers to become available or unavailable for ride matching and maintain consistent driver state."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement driver location updates",
+          "description": "Receive driver latitude/longitude updates and store active locations in Redis."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure Redis GEO",
+          "description": "Use Redis GEO commands to store and query nearby available drivers."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure location TTL",
+          "description": "Expire stale driver locations so disconnected or inactive drivers are not selected for matching."
+        }
+      ]
+    },
+    {
+      "issueType": "Task",
+      "summary": "Trip Service",
+      "description": "Manage the core ride lifecycle from request through completion. Tech: Java, Spring Boot, PostgreSQL, REST, transactions. AWS: EKS, RDS PostgreSQL. Priority: MUST HAVE.",
+      "priority": "Must Have",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Create Trip Service",
+          "description": "Create Spring Boot service responsible for ride/trip lifecycle and trip state."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Design trip database schema",
+          "description": "Create PostgreSQL tables for rides/trips, passengers, drivers, locations, timestamps, status, and relevant indexes."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement ride request API",
+          "description": "Allow passengers to request rides with pickup and destination information."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement trip state machine",
+          "description": "Define valid states such as REQUESTED, MATCHED, ACCEPTED, ARRIVING, IN_PROGRESS, COMPLETED, CANCELLED."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement trip lifecycle APIs",
+          "description": "Implement driver/passenger operations for accepting, arriving, starting, completing, and cancelling trips."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement trip history",
+          "description": "Provide paginated ride history APIs with appropriate PostgreSQL indexes."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement transaction boundaries",
+          "description": "Use Spring transactions to keep critical trip state changes consistent."
+        }
+      ]
+    },
+    {
+      "issueType": "Task",
+      "summary": "Matching Service",
+      "description": "Find and select suitable nearby drivers for requested rides. Tech: Java, Spring Boot, Redis GEO, REST. AWS: EKS, ElastiCache Redis. Priority: MUST HAVE.",
+      "priority": "Must Have",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Create Matching Service",
+          "description": "Create Spring Boot service responsible for driver discovery and matching logic."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Query nearby drivers",
+          "description": "Use Redis GEOSEARCH to find available drivers within a configured radius."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Rank matching candidates",
+          "description": "Rank candidates using simple factors such as distance and driver availability."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement driver reservation",
+          "description": "Temporarily reserve a driver while the ride request is being offered to prevent conflicting assignments."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Handle matching timeout",
+          "description": "Release failed or expired matching attempts and try another candidate when appropriate."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Handle no-driver scenario",
+          "description": "Return a clear result when no suitable available driver exists."
+        }
+      ]
+    },
+    {
+      "issueType": "Task",
+      "summary": "Concurrency & Data Consistency",
+      "description": "Prevent race conditions when multiple drivers attempt to accept the same ride. Tech: PostgreSQL transactions, row locking, optimistic locking, Redis atomic operations. AWS: RDS PostgreSQL, ElastiCache Redis. Priority: MUST HAVE.",
+      "priority": "Must Have",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Identify concurrent operations",
+          "description": "Identify race-prone operations such as multiple drivers accepting one ride and multiple requests modifying driver state."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement pessimistic row locking",
+          "description": "Use PostgreSQL SELECT FOR UPDATE where appropriate to serialize critical ride updates."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement optimistic locking",
+          "description": "Use a version field with JPA @Version for entities where optimistic concurrency is appropriate."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Prevent double ride acceptance",
+          "description": "Ensure only one driver can successfully claim a requested ride even under concurrent requests."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement idempotency for critical APIs",
+          "description": "Prevent duplicate processing when clients retry ride acceptance, payment, or other critical requests."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Create concurrency tests",
+          "description": "Send concurrent requests and verify that only one driver wins the acceptance race."
+        }
+      ]
+    },
+    {
+      "issueType": "Task",
+      "summary": "Payment Service",
+      "description": "Implement simulated payment processing after trip completion. Tech: Java, Spring Boot, PostgreSQL, transactions, idempotency. AWS: EKS, RDS PostgreSQL. Priority: MUST HAVE.",
+      "priority": "Must Have",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Create Payment Service",
+          "description": "Create Spring Boot service responsible for simulated payment processing."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Design payment data model",
+          "description": "Store payment status, trip ID, amount, transaction ID, and timestamps."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement simulated payment flow",
+          "description": "Create a fake payment provider and simulate successful and failed payment scenarios."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement payment idempotency",
+          "description": "Ensure retrying the same payment request does not create duplicate transactions."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement payment retry handling",
+          "description": "Handle temporary failures safely without creating duplicate payments."
+        }
+      ]
+    },
+    {
+      "issueType": "Task",
+      "summary": "Asynchronous Processing & Messaging",
+      "description": "Move independent background operations to asynchronous processing. Tech: SQS, DLQ, workers, EventBridge. AWS: Amazon SQS, EventBridge, EKS. Priority: SHOULD HAVE.",
+      "priority": "Should Have",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure SQS queue",
+          "description": "Create queues for background jobs such as notifications or other retryable operations."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure SQS dead-letter queue",
+          "description": "Configure DLQ and max receive count for messages that repeatedly fail."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement notification worker",
+          "description": "Create a worker that consumes SQS messages and processes notifications asynchronously."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement message retry handling",
+          "description": "Handle temporary failures and allow SQS to retry failed messages."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Publish business events",
+          "description": "Publish events such as TripCompleted or PaymentCompleted using EventBridge."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement event consumers",
+          "description": "Create consumers for selected business events without tightly coupling services."
+        }
+      ]
+    },
+    {
+      "issueType": "Task",
+      "summary": "Saga & Distributed Workflow",
+      "description": "Handle multi-service workflows where one database transaction cannot cover the entire operation. Tech: EventBridge, service events, compensation, eventual consistency. AWS: EventBridge. Priority: SHOULD HAVE.",
+      "priority": "Should Have",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Identify distributed workflows",
+          "description": "Identify operations that span Trip, Payment, Driver, and Notification services."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Design trip completion workflow",
+          "description": "Define how TripCompleted triggers payment and other independent operations."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Define eventual consistency behavior",
+          "description": "Document which data may temporarily differ between services and how it becomes consistent."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement compensation handling",
+          "description": "Define simple compensation actions when a downstream operation fails."
+        }
+      ]
+    },
+    {
+      "issueType": "Task",
+      "summary": "Real-Time Tracking",
+      "description": "Provide live trip and driver location updates. Tech: WebSocket, Redis Pub/Sub, Spring WebSocket. AWS: EKS, ElastiCache Redis. Priority: SHOULD HAVE.",
+      "priority": "Should Have",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement WebSocket endpoint",
+          "description": "Create WebSocket connections for passengers and drivers to receive real-time updates."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement Redis Pub/Sub",
+          "description": "Use Redis Pub/Sub to distribute real-time events between service instances."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Broadcast driver location",
+          "description": "Publish driver location updates to the appropriate trip/passenger channel."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Broadcast trip state changes",
+          "description": "Push ride state changes such as ACCEPTED, ARRIVING, IN_PROGRESS, and COMPLETED."
+        }
+      ]
+    },
+    {
+      "issueType": "Task",
+      "summary": "Kubernetes & EKS",
+      "description": "Deploy and operate RideNow microservices on Kubernetes. Tech: Kubernetes, Docker, YAML, kubectl. AWS: Amazon EKS, ECR, ALB. Priority: MUST HAVE.",
+      "priority": "Must Have",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Create EKS cluster",
+          "description": "Create the Kubernetes cluster and worker capacity required for RideNow services."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Create Kubernetes namespaces",
+          "description": "Organize RideNow workloads using appropriate namespaces."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Create Kubernetes Deployments",
+          "description": "Create Deployments for each Spring Boot microservice."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Create Kubernetes Services",
+          "description": "Expose internal microservices using Kubernetes Services."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure Ingress",
+          "description": "Route external API traffic to the appropriate services using AWS Load Balancer Controller and ALB."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure readiness and liveness probes",
+          "description": "Add health endpoints and Kubernetes probes so unhealthy containers are removed or restarted."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure resource requests and limits",
+          "description": "Define CPU and memory requests/limits for services."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure Horizontal Pod Autoscaler",
+          "description": "Configure HPA for selected services and test scaling behavior under load."
+        }
+      ]
+    },
+    {
+      "issueType": "Task",
+      "summary": "AWS Infrastructure",
+      "description": "Build the AWS infrastructure required to run RideNow securely. AWS: VPC, private subnets, security groups, EKS, RDS, ElastiCache, ECR, API Gateway, Secrets Manager, IAM. Priority: MUST HAVE.",
+      "priority": "Must Have",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Design VPC network",
+          "description": "Design VPC CIDR, public/private subnets, routing, and availability zones for the application."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure security groups",
+          "description": "Allow only required traffic between ALB, EKS, RDS, Redis, and other AWS resources."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure RDS PostgreSQL",
+          "description": "Create PostgreSQL database infrastructure with appropriate networking and security."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure ElastiCache Redis",
+          "description": "Create Redis infrastructure for GEO data, temporary state, locking where justified, and Pub/Sub."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure ECR repositories",
+          "description": "Create ECR repositories for each microservice Docker image."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure Secrets Manager",
+          "description": "Store database credentials, API secrets, and other sensitive configuration securely."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure IAM roles",
+          "description": "Create least-privilege IAM permissions required by EKS workloads and AWS services."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure API Gateway",
+          "description": "Expose the RideNow API entry point and configure authentication, throttling, and routing as required."
+        }
+      ]
+    },
+    {
+      "issueType": "Task",
+      "summary": "Infrastructure as Code",
+      "description": "Define AWS infrastructure and Kubernetes-related infrastructure using code. Tech: Terraform or CloudFormation. AWS: VPC, EKS, RDS, ElastiCache, ECR, IAM, Secrets Manager. Priority: MUST HAVE.",
+      "priority": "Must Have",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Choose IaC approach",
+          "description": "Select Terraform or CloudFormation and define project structure."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Define networking as code",
+          "description": "Create VPC, subnets, route tables, NAT, security groups, and related resources through IaC."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Define AWS services as code",
+          "description": "Define EKS, ECR, RDS, Redis, IAM, Secrets Manager, and other required resources."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Define environment configuration",
+          "description": "Separate configuration for development and production environments where appropriate."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Test infrastructure deployment",
+          "description": "Deploy infrastructure from a clean environment and verify that resources are reproducible."
+        }
+      ]
+    },
+    {
+      "issueType": "Task",
+      "summary": "CI/CD Pipeline",
+      "description": "Automate building, testing, publishing, and deploying RideNow services. Tech: GitHub Actions, Docker, Kubernetes. AWS: ECR, EKS, CloudWatch. Priority: MUST HAVE.",
+      "priority": "Must Have",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Define Git workflow",
+          "description": "Use short-lived feature branches, pull requests, code review, and protected main branch."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Create Dockerfiles",
+          "description": "Create production-ready Docker images for each Spring Boot service."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Build CI pipeline",
+          "description": "Run compilation, unit tests, and basic validation automatically on pull requests."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Push images to ECR",
+          "description": "Build Docker images and push versioned images to Amazon ECR."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Deploy to EKS",
+          "description": "Automatically update Kubernetes Deployments with the new image version."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Run database migrations",
+          "description": "Integrate Flyway or Liquibase migrations into the deployment process."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement deployment rollback",
+          "description": "Verify that failed deployments can be rolled back to the previous working version."
+        }
+      ]
+    },
+    {
+      "issueType": "Task",
+      "summary": "Testing",
+      "description": "Validate correctness, integration, concurrency, reliability, and system behavior. Tech: JUnit 5, Mockito, REST Assured, Testcontainers, WireMock, k6. AWS: LocalStack/AWS test environment. Priority: MUST HAVE.",
+      "priority": "Must Have",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement unit tests",
+          "description": "Test service business logic and domain rules using JUnit 5 and Mockito."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement API tests",
+          "description": "Test REST endpoints, validation, authentication, authorization, and error responses."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement database integration tests",
+          "description": "Use Testcontainers PostgreSQL to test real database behavior, transactions, and constraints."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement service integration tests",
+          "description": "Test communication between microservices using real or mocked dependencies."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Test asynchronous messaging",
+          "description": "Test SQS message processing, retries, failures, and DLQ behavior."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Test concurrency",
+          "description": "Send simultaneous ride acceptance requests and verify locking and consistency."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement E2E tests",
+          "description": "Test the complete Passenger and Driver ride flow from authentication to trip completion."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement load testing",
+          "description": "Use k6 to test API throughput, latency, concurrent ride requests, and selected high-load endpoints."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement failure testing",
+          "description": "Test service failures, pod restarts, message failures, retries, and recovery behavior."
+        }
+      ]
+    },
+    {
+      "issueType": "Task",
+      "summary": "Frontend Application",
+      "description": "Build a lightweight frontend focused on validating the backend rather than UI polish. Tech: Flutter, Dart, REST, WebSocket. Priority: MUST HAVE.",
+      "priority": "Must Have",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement authentication screens",
+          "description": "Implement login/register flow and Cognito authentication."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement passenger ride request",
+          "description": "Allow passengers to enter pickup/destination and request a ride."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement passenger trip screen",
+          "description": "Display driver information, trip status, and basic trip information."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement driver dashboard",
+          "description": "Allow drivers to go online/offline, receive ride requests, and manage trip states."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement driver location updates",
+          "description": "Send simulated or device-based driver location updates to the backend."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement real-time tracking UI",
+          "description": "Display WebSocket-based trip and location updates if real-time tracking is implemented."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement ride history",
+          "description": "Display completed/cancelled rides using backend pagination APIs."
+        }
+      ]
+    },
+    {
+      "issueType": "Task",
+      "summary": "Observability & Monitoring",
+      "description": "Monitor application health, logs, metrics, and deployment behavior. AWS: CloudWatch, EKS Container Insights where appropriate. Priority: MUST HAVE.",
+      "priority": "Must Have",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure centralized application logs",
+          "description": "Collect Spring Boot container logs in CloudWatch."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Add application health endpoints",
+          "description": "Implement Spring Boot Actuator health endpoints for Kubernetes probes."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Monitor application metrics",
+          "description": "Monitor request rate, latency, errors, CPU, memory, pod health, and relevant business metrics."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure CloudWatch alarms",
+          "description": "Create alarms for important failures such as high error rates or unhealthy infrastructure."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Create operational dashboard",
+          "description": "Create a simple CloudWatch dashboard for application and infrastructure health."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Document observability strategy",
+          "description": "Document what is logged, monitored, alerted, and how engineers investigate failures."
+        }
+      ]
+    },
+    {
+      "issueType": "Task",
+      "summary": "Security & Reliability",
+      "description": "Apply basic production-oriented security and resilience practices. Tech: JWT, IAM, validation, rate limiting, retries, timeouts. AWS: Cognito, IAM, Secrets Manager, API Gateway, Security Groups. Priority: MUST HAVE.",
+      "priority": "Must Have",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement input validation",
+          "description": "Validate request data and reject malformed or invalid input."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement API authorization",
+          "description": "Ensure users can only access resources and operations permitted by their role."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Secure secrets",
+          "description": "Store credentials and sensitive configuration in AWS Secrets Manager instead of source code or Docker images."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure least-privilege IAM",
+          "description": "Grant AWS permissions only to the resources and actions required by each workload."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Configure API throttling",
+          "description": "Protect public APIs using API Gateway throttling and appropriate application-level controls."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement service timeouts and retries",
+          "description": "Configure reasonable timeouts and controlled retries for service-to-service communication."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement graceful failure handling",
+          "description": "Return meaningful errors and prevent cascading failures when dependencies are unavailable."
+        }
+      ]
+    },
+    {
+      "issueType": "Task",
+      "summary": "Documentation & Final Demo",
+      "description": "Document the architecture, APIs, deployment, testing, and technical decisions and prepare the final demonstration. Priority: MUST HAVE.",
+      "priority": "Must Have",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Document system architecture",
+          "description": "Document microservices, AWS infrastructure, data flow, and communication patterns."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Document API contracts",
+          "description": "Document REST APIs, request/response models, authentication, and error handling."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Document database design",
+          "description": "Document service database ownership, schemas, important indexes, and consistency decisions."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Document deployment process",
+          "description": "Document IaC deployment, Docker image flow, CI/CD pipeline, and EKS deployment."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Document testing strategy",
+          "description": "Document unit, integration, API, concurrency, E2E, load, and failure testing."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Prepare technical demo",
+          "description": "Demonstrate the complete ride flow, concurrent acceptance, Redis matching, asynchronous processing, Kubernetes deployment, and observability."
+        }
+      ]
+    },
+    {
+      "issueType": "Task",
+      "summary": "Optional Features",
+      "description": "Implement additional features only after all MUST HAVE and important SHOULD HAVE work is stable. Tech/AWS depends on selected feature. Priority: OPTIONAL.",
+      "priority": "Optional",
+      "subtasks": [
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement rating system",
+          "description": "Allow passengers and drivers to rate each other after completed trips."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Add Prometheus and Grafana",
+          "description": "Add dedicated metrics collection and dashboards if the team has sufficient time."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Implement blue-green deployment",
+          "description": "Experiment with advanced deployment strategies after reliable rolling deployments are complete."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Add advanced caching",
+          "description": "Introduce additional caching only where profiling shows a real performance benefit."
+        },
+        {
+          "issueType": "Sub-task",
+          "summary": "Improve frontend UI",
+          "description": "Improve visual design and animations only after backend and DevOps requirements are complete."
+        }
+      ]
+    }
+  ]
+}
